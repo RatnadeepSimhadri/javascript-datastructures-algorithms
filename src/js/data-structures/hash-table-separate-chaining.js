@@ -1,96 +1,94 @@
-import { defaultToString } from '../util';
-import LinkedList from './linked-list';
-import { ValuePair } from './models/value-pair';
-
-export default class HashTableSeparateChaining {
-  constructor(toStrFn = defaultToString) {
-    this.toStrFn = toStrFn;
-    this.table = {};
-  }
-  loseloseHashCode(key) {
-    if (typeof key === 'number') {
-      return key;
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const util_1 = require("../util");
+const linked_list_1 = require("./linked-list");
+const value_pair_1 = require("./models/value-pair");
+class HashTableSeparateChaining {
+    constructor(toStrFn = util_1.defaultToString) {
+        this.toStrFn = toStrFn;
+        this.table = {};
     }
-    const tableKey = this.toStrFn(key);
-    let hash = 0;
-    for (let i = 0; i < tableKey.length; i++) {
-      hash += tableKey.charCodeAt(i);
-    }
-    return hash % 37;
-  }
-  hashCode(key) {
-    return this.loseloseHashCode(key);
-  }
-  put(key, value) {
-    if (key != null && value != null) {
-      const position = this.hashCode(key);
-      if (this.table[position] == null) {
-        this.table[position] = new LinkedList();
-      }
-      this.table[position].push(new ValuePair(key, value));
-      return true;
-    }
-    return false;
-  }
-  get(key) {
-    const position = this.hashCode(key);
-    const linkedList = this.table[position];
-    if (linkedList != null && !linkedList.isEmpty()) {
-      let current = linkedList.getHead();
-      while (current != null) {
-        if (current.element.key === key) {
-          return current.element.value;
+    loseloseHashCode(key) {
+        if (typeof key === 'number') {
+            return key;
         }
-        current = current.next;
-      }
-    }
-    return undefined;
-  }
-  remove(key) {
-    const position = this.hashCode(key);
-    const linkedList = this.table[position];
-    if (linkedList != null && !linkedList.isEmpty()) {
-      let current = linkedList.getHead();
-      while (current != null) {
-        if (current.element.key === key) {
-          linkedList.remove(current.element);
-          if (linkedList.isEmpty()) {
-            delete this.table[position];
-          }
-          return true;
+        const tableKey = this.toStrFn(key);
+        let hash = 0;
+        for (let i = 0; i < tableKey.length; i++) {
+            hash += tableKey.charCodeAt(i);
         }
-        current = current.next;
-      }
+        return hash % 37;
     }
-    return false;
-  }
-  isEmpty() {
-    return this.size() === 0;
-  }
-  size() {
-    let count = 0;
-    Object.values(this.table).forEach(linkedList => {
-      count += linkedList.size();
-    });
-    return count;
-  }
-  clear() {
-    this.table = {};
-  }
-  getTable() {
-    return this.table;
-  }
-  toString() {
-    if (this.isEmpty()) {
-      return '';
+    hashCode(key) {
+        return this.loseloseHashCode(key);
     }
-    const keys = Object.keys(this.table);
-    let objString = `{${keys[0]} => ${this.table[keys[0]].toString()}}`;
-    for (let i = 1; i < keys.length; i++) {
-      objString = `${objString},{${keys[i]} => ${this.table[
-        keys[i]
-      ].toString()}}`;
+    put(key, value) {
+        if (key != null && value != null) {
+            const position = this.hashCode(key);
+            if (this.table[position] == null) {
+                this.table[position] = new linked_list_1.default();
+            }
+            this.table[position].push(new value_pair_1.ValuePair(key, value));
+            return true;
+        }
+        return false;
     }
-    return objString;
-  }
+    get(key) {
+        const position = this.hashCode(key);
+        const linkedList = this.table[position];
+        if (linkedList != null && !linkedList.isEmpty()) {
+            let current = linkedList.getHead();
+            while (current != null) {
+                if (current.element.key === key) {
+                    return current.element.value;
+                }
+                current = current.next;
+            }
+        }
+        return undefined;
+    }
+    remove(key) {
+        const position = this.hashCode(key);
+        const linkedList = this.table[position];
+        if (linkedList != null && !linkedList.isEmpty()) {
+            let current = linkedList.getHead();
+            while (current != null) {
+                if (current.element.key === key) {
+                    linkedList.remove(current.element);
+                    if (linkedList.isEmpty()) {
+                        delete this.table[position];
+                    }
+                    return true;
+                }
+                current = current.next;
+            }
+        }
+        return false;
+    }
+    isEmpty() {
+        return this.size() === 0;
+    }
+    size() {
+        let count = 0;
+        Object.values(this.table).forEach(linkedList => count += linkedList.size());
+        return count;
+    }
+    clear() {
+        this.table = {};
+    }
+    getTable() {
+        return this.table;
+    }
+    toString() {
+        if (this.isEmpty()) {
+            return '';
+        }
+        const keys = Object.keys(this.table);
+        let objString = `{${keys[0]} => ${this.table[keys[0]].toString()}}`;
+        for (let i = 1; i < keys.length; i++) {
+            objString = `${objString},{${keys[i]} => ${this.table[keys[i]].toString()}}`;
+        }
+        return objString;
+    }
 }
+exports.default = HashTableSeparateChaining;

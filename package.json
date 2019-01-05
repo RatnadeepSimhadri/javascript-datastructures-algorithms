@@ -16,8 +16,8 @@
   "scripts": {
     "clean": "rm -rf ./dist ./coverage ./.nyc_output ./coverage.lcov ./mochawesome-report",
     "build:js": "babel src/js -d dist/js",
-    "build:ts": "tsc -p ./ --rootDir ./src/ts",
-    "build": "npm run build:js && npm run build:ts",
+    "build:ts": "tsc -p ./ ",
+    "build": " npm run build:ts && npm run build:js",
     "lint:js": "eslint src/js && eslint test/js",
     "lint:ts": "tslint -c tslint.json 'src/ts/**/*.ts' && tslint -c tslint.json 'test/ts/**/*.ts'",
     "lint": "npm run lint:js && npm run lint:ts",

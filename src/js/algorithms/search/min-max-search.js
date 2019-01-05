@@ -1,26 +1,29 @@
-import { defaultCompare, Compare } from '../../util';
-
-export function findMaxValue(array, compareFn = defaultCompare) {
-  if (array && array.length > 0) {
-    let max = array[0];
-    for (let i = 1; i < array.length; i++) {
-      if (compareFn(max, array[i]) === Compare.LESS_THAN) {
-        max = array[i];
-      }
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const util_1 = require("../../util");
+function findMaxValue(array, compareFn = util_1.defaultCompare) {
+    if (array && array.length > 0) {
+        let max = array[0];
+        for (let i = 1; i < array.length; i++) {
+            if (compareFn(max, array[i]) === util_1.Compare.LESS_THAN) {
+                max = array[i];
+            }
+        }
+        return max;
     }
-    return max;
-  }
-  return undefined;
+    return undefined;
 }
-export function findMinValue(array, compareFn = defaultCompare) {
-  if (array && array.length > 0) {
-    let min = array[0];
-    for (let i = 1; i < array.length; i++) {
-      if (compareFn(min, array[i]) === Compare.BIGGER_THAN) {
-        min = array[i];
-      }
+exports.findMaxValue = findMaxValue;
+function findMinValue(array, compareFn = util_1.defaultCompare) {
+    if (array && array.length > 0) {
+        let min = array[0];
+        for (let i = 1; i < array.length; i++) {
+            if (compareFn(min, array[i]) === util_1.Compare.BIGGER_THAN) {
+                min = array[i];
+            }
+        }
+        return min;
     }
-    return min;
-  }
-  return undefined;
+    return undefined;
 }
+exports.findMinValue = findMinValue;
