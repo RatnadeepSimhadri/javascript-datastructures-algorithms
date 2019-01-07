@@ -3,8 +3,8 @@ export default class StackArray <T> {
   constructor() {
     this.items = [];
   }
-  push(elem: T ) {
-    this.items.push(elem);
+  push(elem: T | T[] ) {
+    this.items =  this.items.concat(elem);
   }
 
   pop(): T {
