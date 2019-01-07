@@ -1,39 +1,41 @@
-export default class StackArray<T> {
-  private items: T[];
-
+export default class StackArray <T> {
+  private items: Array<T>;
   constructor() {
     this.items = [];
   }
-
-  push(element: T) {
-    this.items.push(element);
+  push(elem: T ) {
+    this.items.push(elem);
   }
 
-  pop() {
+  pop(): T {
     return this.items.pop();
   }
 
-  peek() {
+  peek(): T {
     return this.items[this.items.length - 1];
-  }
+}
 
-  isEmpty() {
+ isEmpty(): boolean {
     return this.items.length === 0;
-  }
-
-  size() {
-    return this.items.length;
-  }
-
-  clear() {
+ }
+ clear(): void {
     this.items = [];
-  }
+ }
+ size(): number {
+    return this.items.length;
+ }
 
-  toArray() {
+/**
+ * Not part of the Initial Description of the Stack
+ */
+ toString(): string {
+    return this.items.join(',');
+}
+
+/**
+ * Not part of the Initial Description of the Stack
+ */
+toArray(): T[] {
     return this.items;
-  }
-
-  toString() {
-    return this.items.toString();
-  }
+}
 }
