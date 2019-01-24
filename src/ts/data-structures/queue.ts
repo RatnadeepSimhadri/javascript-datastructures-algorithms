@@ -1,58 +1,57 @@
+/**
+ * Using an Object to implement Stack is like using a Map to implement Stack in other languages
+ * and I can get a O(1) Time Complexity on Add and Removing or rather Constant Time
+ */
 export default class Queue<T> {
-  private count: number;
-  private lowestCount: number;
-  private items: any;
-
+  private items: {[index: number]: T};
+  private frontpos: number;
+  private currentIndex: number;
   constructor() {
-    this.count = 0;
-    this.lowestCount = 0;
+    this.currentIndex = -1;
+    this.frontpos = 0; /* Always Increments and keeps track of next element to be picked out */
     this.items = {};
   }
-
   enqueue(element: T) {
-    this.items[this.count] = element;
-    this.count++;
+    this.currentIndex++;
+    this.items[this.currentIndex] = element;
   }
-
-  dequeue() {
+  dequeue(): T {
     if (this.isEmpty()) {
       return undefined;
     }
-    const result = this.items[this.lowestCount];
-    delete this.items[this.lowestCount];
-    this.lowestCount++;
-    return result;
+    const res = this.items[this.frontpos];
+    delete(this.items[this.frontpos]);
+    this.frontpos++;
+    return res;
   }
-
-  peek() {
-    if (this.isEmpty()) {
-      return undefined;
-    }
-    return this.items[this.lowestCount];
+  peek(): T {
+    return this.items[this.frontpos];
   }
 
   isEmpty() {
-    return this.size() === 0;
+    return this.currentIndex < this.frontpos;
   }
-
-  clear() {
-    this.items = {};
-    this.count = 0;
-    this.lowestCount = 0;
-  }
-
   size() {
-    return this.count - this.lowestCount;
+    if (this.isEmpty()) {
+      return 0;
+    }
+    return (this.currentIndex - this.frontpos) + 1;
   }
 
   toString() {
     if (this.isEmpty()) {
       return '';
     }
-    let objString = `${this.items[this.lowestCount]}`;
-    for (let i = this.lowestCount + 1; i < this.count; i++) {
+    let objString = `${this.items[this.frontpos]}`;
+    for (let i = this.frontpos + 1; i <= this.currentIndex; i++) {
       objString = `${objString},${this.items[i]}`;
     }
     return objString;
   }
+  clear() {
+    this.items = {};
+    this.frontpos = 0;
+    this.currentIndex = -1;
+  }
+
 }
