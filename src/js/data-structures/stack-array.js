@@ -4,8 +4,8 @@ class StackArray {
     constructor() {
         this.items = [];
     }
-    push(element) {
-        this.items.push(element);
+    push(elem) {
+        this.items = this.items.concat(elem);
     }
     pop() {
         return this.items.pop();
@@ -16,17 +16,23 @@ class StackArray {
     isEmpty() {
         return this.items.length === 0;
     }
-    size() {
-        return this.items.length;
-    }
     clear() {
         this.items = [];
     }
+    size() {
+        return this.items.length;
+    }
+    /**
+     * Not part of the Initial Description of the Stack
+     */
+    toString() {
+        return this.items.join(',');
+    }
+    /**
+     * Not part of the Initial Description of the Stack
+     */
     toArray() {
         return this.items;
-    }
-    toString() {
-        return this.items.toString();
     }
 }
 exports.default = StackArray;

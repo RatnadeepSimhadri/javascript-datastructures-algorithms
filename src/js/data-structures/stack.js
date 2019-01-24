@@ -1,22 +1,26 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * In Javascript Object is key value pairs and Numbers Index number can give us the last element
+ * *i.e., if number of elements == n then n-1th element of the Object gives the last element in the Stack
+ * */
 class Stack {
     constructor() {
         this.count = 0;
         this.items = {};
     }
-    push(element) {
-        this.items[this.count] = element;
+    push(item) {
+        this.items[this.count] = item;
         this.count++;
     }
     pop() {
         if (this.isEmpty()) {
             return undefined;
         }
+        const item = this.items[this.count - 1];
+        delete (this.items[this.count - 1]);
         this.count--;
-        const result = this.items[this.count];
-        delete this.items[this.count];
-        return result;
+        return item;
     }
     peek() {
         if (this.isEmpty()) {
