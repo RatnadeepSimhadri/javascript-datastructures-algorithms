@@ -1,90 +1,79 @@
+/**
+ * Using an Object to implement Deque is like using a Map to implement Deque in other languages
+ * and I can get a O(1) Time Complexity on Add and Removing or rather Constant Time
+ */
 export default class Deque<T> {
-  private count: number;
-  private lowestCount: number;
-  private items: any;
-
+  private items: {[index: number]: T};
+  private frontOfQueue: number;
+  private rearOfQueue: number;
   constructor() {
-    this.count = 0;
-    this.lowestCount = 0;
+    this.rearOfQueue = -1;
+    this.frontOfQueue = 0; /* May Increment or Decrement to discover the first position in Queue*/
     this.items = {};
   }
-
+  addBack(element: T) {
+    this.rearOfQueue++;
+    this.items[this.rearOfQueue] = element;
+  }
   addFront(element: T) {
     if (this.isEmpty()) {
       this.addBack(element);
-    } else if (this.lowestCount > 0) {
-      this.lowestCount--;
-      this.items[this.lowestCount] = element;
     } else {
-      for (let i = this.count; i > 0; i--) {
-        this.items[i] = this.items[i - 1];
-      }
-      this.count++;
-      this.items[0] = element;
+      this.frontOfQueue --;
+      this.items[this.frontOfQueue] = element;
     }
   }
-
-  addBack(element: T) {
-    this.items[this.count] = element;
-    this.count++;
-  }
-
-  removeFront() {
+  removeFront(): T {
     if (this.isEmpty()) {
       return undefined;
     }
-    const result = this.items[this.lowestCount];
-    delete this.items[this.lowestCount];
-    this.lowestCount++;
-    return result;
+    const res = this.items[this.frontOfQueue];
+    delete(this.items[this.frontOfQueue]);
+    this.frontOfQueue++;
+    return res;
   }
 
-  removeBack() {
+  removeBack(): T {
     if (this.isEmpty()) {
       return undefined;
     }
-    this.count--;
-    const result = this.items[this.count];
-    delete this.items[this.count];
-    return result;
+    const res = this.items[this.rearOfQueue];
+    delete(this.items[this.rearOfQueue]);
+    this.rearOfQueue--;
+    return res;
   }
-
-  peekFront() {
-    if (this.isEmpty()) {
-      return undefined;
-    }
-    return this.items[this.lowestCount];
+  peekFront(): T {
+    return this.items[this.frontOfQueue];
   }
-
-  peekBack() {
-    if (this.isEmpty()) {
-      return undefined;
-    }
-    return this.items[this.count - 1];
+  peekBack(): T {
+    return this.items[this.rearOfQueue];
   }
 
   isEmpty() {
     return this.size() === 0;
   }
-
-  clear() {
-    this.items = {};
-    this.count = 0;
-    this.lowestCount = 0;
-  }
-
   size() {
-    return this.count - this.lowestCount;
+    if (this.frontOfQueue < 0) {
+      return (this.rearOfQueue + 1) + (-(this.frontOfQueue));
+    } else {
+      return (this.rearOfQueue - this.frontOfQueue) + 1;
+    }
   }
 
   toString() {
     if (this.isEmpty()) {
       return '';
     }
-    let objString = `${this.items[this.lowestCount]}`;
-    for (let i = this.lowestCount + 1; i < this.count; i++) {
+    let objString = `${this.items[this.frontOfQueue]}`;
+    for (let i = this.frontOfQueue + 1; i <= this.rearOfQueue; i++) {
       objString = `${objString},${this.items[i]}`;
     }
     return objString;
   }
+  clear() {
+    this.items = {};
+    this.frontOfQueue = 0;
+    this.rearOfQueue = -1;
+  }
+
 }
