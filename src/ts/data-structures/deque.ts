@@ -1,6 +1,7 @@
 /**
  * Using an Object to implement Deque is like using a Map to implement Deque in other languages
  * and I can get a O(1) Time Complexity on Add and Removing or rather Constant Time
+ * The Deque is implemented at O(1) coz the front pos can go -ve
  */
 export default class Deque<T> {
   private items: {[index: number]: T};
@@ -8,7 +9,7 @@ export default class Deque<T> {
   private rearOfQueue: number;
   constructor() {
     this.rearOfQueue = -1;
-    this.frontOfQueue = 0; /* May Increment or Decrement to discover the first position in Queue*/
+    this.frontOfQueue = 0; /* May Increment or Decrement to discover the first position in DeQueue*/
     this.items = {};
   }
   addBack(element: T) {
